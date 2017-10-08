@@ -4,6 +4,10 @@ import sys
 # google vision and luis
 from . import api
 
+def _print(string):
+	print(string, file=sys.stdout)
+
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -35,9 +39,9 @@ def img():
 		# print("console logging: {}".format(img), file=sys.stdout)
 		
 		# call those api's 
-		extracted_text = api.google_vision(img)
-		datetime       = api.luis(extracted_text)
-		location       = api.google_nlp(extracted_text)         
+		extracted_text        = api.google_vision(img)
+		datetime              = api.luis(extracted_text)
+		location, description = api.google_nlp(extracted_text)         
 
 
 
@@ -45,7 +49,7 @@ def img():
 		response = {
 			'response' : 'OK',
 			'contact'  : {
-				'name' : '',
+				'title' : '',
 				'datetime' : datetime,
 				'location' : location
 			}
@@ -55,10 +59,12 @@ def img():
 			'response' : 'FAIL'
 		}
 		
-		print("console logging: {}".format(extracted_text), file=sys.stdout)
-		return jsonify({'text' : extracted_text})
+		if datetime == '':
+			return jsonify(response_fail)
+
 		# return "return dummy data"
-	
+
+		# @todo: can we do away with try/except at this stage now?	
 		# except:
 			# return jsonify({'text' : 'no text found'})
 
