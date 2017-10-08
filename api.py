@@ -6,7 +6,10 @@ import os
 import pprint
 import sys
 
-GOOGLE_VISION_KEY = ''
+# import cStringIO
+from PIL import Image
+
+GOOGLE_VISION_KEY = 'AIzaSyB7_LM0SWtHJAHRSuMB3xUi0b181JaNP7Q'
 
 # @potential for description: 
 # website url, contact number, name, work of art, organisation, people?: Google's nlp API
@@ -19,20 +22,21 @@ def _print(string):
 	print(string, file=sys.stdout)
 
 
+def greyscale_image(string):
+	pass
+
 # no need of arguement because manjul is giving base64 encoded image.
-def convert_to_base64():
+def convert_to_base64(greyscale = False):
 
 	# hard-coding path for testing.
-	with open('/home/manu/coursework/hackdata/data/1.jpg', 'rb') as f:
+	with open('/home/manu/coursework/hackdata/data/result_bw.png', 'rb') as f:
 		img         = f.read()
 		encoded_img = base64.b64encode(img)
+
 	
 	return encoded_img
 
 def google_vision(img=''):
-
-LOCATION: 
-
 
 	# if image is not coming from flask server i.e. TESTING
 	if img == '':
@@ -82,7 +86,7 @@ LOCATION:
 	return extracted_string
 
 def luis(string):
-	base_url = ''
+	base_url = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/3a7bdb13-78b4-4a96-9548-81233ace1bd5?subscription-key=ef0101d81c8741939cfe5ba5ddcb03f3&timezoneOffset=0&verbose=true&q='
 
 	text_to_test = string
 
@@ -110,6 +114,8 @@ def luis(string):
 
 
 	if datetime != '':
+		datetime = datetime.replace(" ", "T")
+		_print("whole datetime: {}\n\n".format(datetime))
 		return datetime
 
 	date = ''
@@ -130,13 +136,13 @@ def luis(string):
 	if date == '':
 		for i in content_json['entities']:
 			if i['type'] == 'builtin.datetimeV2.daterange':
-				if i['resolution']['values'][0]['type'] == 'daterange':
-					date = i['resolution']['values'][0]['start']
+				if i['resolution']['values'][1]['type'] == 'daterange':
+					date = i['resolution']['values'][1]['start']
 
 
 	# if date is empty, the system falls down
 	if date != '':
-		datetime = date + ' ' + time
+		datetime = date + 'T' + time + "+05:30"
 
 
 	_print("\n\nDatetime: {}".format(datetime))

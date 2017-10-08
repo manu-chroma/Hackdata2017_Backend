@@ -47,12 +47,11 @@ def img():
 
 
 		response = {
-			'response' : 'OK',
-			'contact'  : {
+			    'response' : 'OK',
 				'title' : '',
 				'datetime' : datetime,
-				'location' : location
-			}
+				'location' : location,
+				'description' : description
 		} 
 
 		response_fail = {
@@ -62,11 +61,14 @@ def img():
 		if datetime == '':
 			return jsonify(response_fail)
 
-		# return "return dummy data"
+		return jsonify(response)
 
 		# @todo: can we do away with try/except at this stage now?	
 		# except:
-			# return jsonify({'text' : 'no text found'})
+	
+		_print("Sucessfully parsed and running.")
+
+		# return jsonify({'text' : 'no text found'})
 
 @app.errorhandler(404)
 def not_found(error):
