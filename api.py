@@ -9,7 +9,7 @@ import sys
 # import cStringIO
 from PIL import Image
 
-GOOGLE_VISION_KEY = 'AIzaSyB7_LM0SWtHJAHRSuMB3xUi0b181JaNP7Q'
+GOOGLE_VISION_KEY = ''
 
 # @potential for description: 
 # website url, contact number, name, work of art, organisation, people?: Google's nlp API
@@ -86,7 +86,7 @@ def google_vision(img=''):
 	return extracted_string
 
 def luis(string):
-	base_url = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/3a7bdb13-78b4-4a96-9548-81233ace1bd5?subscription-key=ef0101d81c8741939cfe5ba5ddcb03f3&timezoneOffset=0&verbose=true&q='
+	base_url = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/<key>'
 
 	text_to_test = string
 
@@ -217,24 +217,3 @@ if __name__ == '__main__':
 
 	# @goals: title, location, anything else?
 	location, description = google_nlp(extracted_text)	
-
-# ------------------------------------------------------------------------------------------------
-
-	# if we want to use Image URL 
-
-	# data = {
-	#	  "requests": [
-	#		{
-	#		  "image": {
-	#			"source": {
-	#		"imageUri": "https://cloud.google.com/vision/docs/images/abbey_road.png"
-	#			}
-	#		  },
-	#		  "features": [
-	#			{
-	#			  "type": "DOCUMENT_TEXT_DETECTION"
-	#			}
-	#		  ]
-	#		}
-	#	  ]
-	#	}
